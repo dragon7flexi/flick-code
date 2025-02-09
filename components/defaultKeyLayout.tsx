@@ -9,6 +9,14 @@ import CursorMoveDownButton from "./cursorMoveDownButton";
 import ExitButton from "./ExitButton";
 import { FlickButton } from "./FlickButton";
 import CursorMoveRightButton from "./CursorMoveRightButton";
+import DeleteButton from "./DeleteButton";
+import SpaceButton from "./SpaceButton";
+import PrevWordButton from "./PrevWordButton";
+import NextWordButton from "./NextWordButton";
+import CutAllButton from "./CutAllButton";
+import PasteButton from "./PasteButton";
+import ShiftButton from "./ShiftButton";
+import EnterButton from "./EnterButton";
 
 interface Props {
     setIsShifted: React.Dispatch<SetStateAction<boolean>>;
@@ -24,10 +32,10 @@ export default function DefaultKeyLayout({
         >
             {/* 1 */}
             <TabButton />
-            <CursorMoveUpButton />
-            <CursorMoveLeftButton />
-            <CursorMoveDownButton />
-            <ExitButton />
+            <PrevWordButton />
+            <CutAllButton />
+            <NextWordButton />
+            <PasteButton />
 
             {/* 2 */}
             <CursorMoveUpButton />
@@ -38,30 +46,90 @@ export default function DefaultKeyLayout({
                 rightValue="/"
                 downValue="1"
             />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
+            <FlickButton
+                upValue="c"
+                leftValue="b"
+                centerValue="a"
+                rightValue="("
+                downValue="2"
+            />
+            <FlickButton
+                upValue="f"
+                leftValue="e"
+                centerValue="d"
+                rightValue=")"
+                downValue="3"
+            />
+            <DeleteButton />
             
             {/* 3 */}
             <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
+            <FlickButton
+                upValue="i"
+                leftValue="h"
+                centerValue="g"
+                rightValue="["
+                downValue="4"
+            />
+            <FlickButton
+                upValue="l"
+                leftValue="k"
+                centerValue="j"
+                rightValue="]"
+                downValue="5"
+            />
+            <FlickButton
+                upValue="o"
+                leftValue="n"
+                centerValue="m"
+                rightValue="{"
+                downValue="6"
+            />
             <CursorMoveRightButton />
 
             {/* 4 */}
             <CursorMoveDownButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
+            <FlickButton
+                upValue="r"
+                leftValue="q"
+                centerValue="p"
+                rightValue="s"
+                downValue="7"
+            />
+            <FlickButton
+                upValue="v"
+                leftValue="u"
+                centerValue="t"
+                rightValue="}"
+                downValue="8"
+            />
+            <FlickButton
+                upValue="y"
+                leftValue="x"
+                centerValue="w"
+                rightValue="z"
+                downValue="9"
+            />
+            <SpaceButton />
 
             {/* 5 */}
             <ExitButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
-            <CursorMoveLeftButton />
+            <FlickButton
+                upValue=":"
+                leftValue='"'
+                centerValue="'"
+                rightValue=";"
+                downValue="0"
+            />
+            <ShiftButton />
+            <FlickButton
+                upValue="?"
+                leftValue=","
+                centerValue="."
+                rightValue="!"
+                downValue="="
+            />
+            <EnterButton />
         </View>
     )
 }

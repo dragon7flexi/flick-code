@@ -28,21 +28,48 @@ export function FlickButton({
                 <View
                     style={styles.firstLine}
                 >
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {upValue}
+                    </Text>
                 </View>
+
                 <View
                    style={styles.secondLine}
                 >
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {leftValue}
+                    </Text>
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {centerValue}
+                    </Text>
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {rightValue}
+                    </Text>
                 </View>
+
                 <View
                     style={styles.thirdLine}
                 >
+                    <Text
+                        style={styles.buttonText}
+                    >
+                        {downValue}
+                    </Text>
                 </View>
-
-
             </TouchableOpacity>
         </View>
     );
 }
+
+const topAdjustmentValue: number = -5;
 
 const styles = StyleSheet.create({
     container: {
@@ -56,16 +83,30 @@ const styles = StyleSheet.create({
         width: "90%",
         borderRadius: 10,
         backgroundColor: KEYBOARD_BUTTON_BACKGROUND_COLOR,
+        flexDirection: "column",
+    },
+    buttonText: {
+        color: "white",
+    },
+    firstLine: {
+        width: "100%",
+        height: KEYBOARD_BUTTON_HEIGHT / 3,
         justifyContent: "center",
         alignItems: "center",
     },
-    firstLine: {
-        
-    },
     secondLine: {
-
+        width: "100%",
+        height: KEYBOARD_BUTTON_HEIGHT / 3,
+        top: topAdjustmentValue,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
     },
     thirdLine: {
-
+        width: "100%",
+        height: KEYBOARD_BUTTON_HEIGHT / 3,
+        top: topAdjustmentValue * 1.5,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
