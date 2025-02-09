@@ -1,0 +1,1 @@
+export const CODE_FONT_FAMILY = "monospace";
