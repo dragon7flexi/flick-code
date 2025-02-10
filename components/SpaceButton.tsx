@@ -1,17 +1,13 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
-import { useCursorPosServices } from "@/services/cursorService";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function SpaceButton() {
-    const { moveCursorRight } = useCursorPosServices();
-
     return (
         <View
             style={styles.container}
         >
             <TouchableOpacity
-                onPress={moveCursorRight}
                 style={styles.button}
             >
                 <Text

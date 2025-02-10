@@ -64,7 +64,7 @@ export function useCursorPosServices(): CursorServices {
             return prevCursorPos;
         }
 
-        const cursorPosOfUnderLine: number = prevCursorPos.line - 1;
+        const cursorPosOfUnderLine: number = prevCursorPos.line + 1;
 
         const StrLenOfUnderLine: number = code[cursorPosOfUnderLine].length;
 

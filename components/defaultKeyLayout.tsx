@@ -3,9 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { TabButton } from "./tabButton";
 import { KEYBOARD_BACKGROUND_COLOR } from "@/constants/Colors";
 // TODO: change the name of cursor buttons
-import CursorMoveUpButton from "./cursorMoveUpButton";
-import CursorMoveLeftButton from "./cursorMoveLeftButton";
-import CursorMoveDownButton from "./cursorMoveDownButton";
+import CursorMoveUpButton from "./CursorMoveUpButton";
+import CursorMoveLeftButton from "./CursorMoveLeftButton";
+import CursorMoveDownButton from "./CursorMoveDownButton";
 import ExitButton from "./ExitButton";
 import { FlickButton } from "./FlickButton";
 import CursorMoveRightButton from "./CursorMoveRightButton";
