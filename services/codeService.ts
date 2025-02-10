@@ -1,95 +1,92 @@
-import { useCodeRepo } from "@/repositories/codeRepository";
 import { CursorPos } from "@/types/cursorPos";
 import { isInRange } from "@/utils/codeServiceUtils";
-import { useCursorPosServices } from "./cursorService";
-import { useCursorPosRepo } from "@/repositories/cursorRepository";
 
 export interface CodeServices {
-    addChar: (
-        char: string,
-    ) => void;
-    delChar: () => void;
+  /**
+   * 指定した文字を、与えられたカーソル位置に挿入します。
+   * @param char 挿入する文字
+   * @param cursorPos 挿入位置を示すカーソル情報
+   */
+  addChar: (char: string, cursorPos: CursorPos) => void;
+
+  /**
+   * カーソル位置の1文字前を削除します。
+   * @param cursorPos 削除位置を示すカーソル情報
+   */
+  delChar: (cursorPos: CursorPos) => void;
 }
 
-export function getCodeServices(): CodeServices {
-    const { updateCode } = useCodeRepo();
-    const { getCursorPos } = useCursorPosRepo();
-    const { moveCursorLeft, moveCursorRight } = useCursorPosServices();
+export function useCodeServices(): CodeServices {
+  const { updateCode } = useCodeRepo();
 
-    const addChar = (
-        char: string,
-    ): void => {
-        updateCode(
-            (
-                prevCode: string[]
-            ): string[] => { 
-                // HACK: updating the cursorPos and the code should be separated.
-                const cursorPos: CursorPos = getCursorPos();
+  /**
+   * 指定した行を更新するヘルパー関数
+   */
+  const updateLine = (
+    prevCode: string[],
+    cursorPos: CursorPos,
+    lineUpdater: (line: string) => string
+  ): string[] => {
+    if (!isInRange(prevCode, cursorPos)) {
+      console.error("Invalid cursorPos");
+      return prevCode;
+    }
+    const newLine = lineUpdater(prevCode[cursorPos.line]);
+    return [
+      ...prevCode.slice(0, cursorPos.line),
+      newLine,
+      ...prevCode.slice(cursorPos.line + 1),
+    ];
+  };
 
-                if (!isInRange(prevCode, cursorPos)) {
-                    console.error("Invalid cursorPos");
+  const addChar = (char: string, cursorPos: CursorPos): void => {
+    console.log("addChar called - Current CursorPos:", cursorPos);
 
-                    return prevCode; // No change.
-                }
+    updateCode((prevCode: string[]): string[] => {
+      console.log("Previous Code:", prevCode);
 
-                const targetLine: string = prevCode[cursorPos.line];
+      if (!isInRange(prevCode, cursorPos)) {
+        console.error("Invalid cursorPos");
+        return prevCode;
+      }
 
-                // HACK: the logic of insertion should be encapsulated.
-                const newLine: string = (
-                    targetLine.slice(0, cursorPos.col) + 
-                    char + 
-                    targetLine.slice(cursorPos.col)
-                );
+      const newCode = updateLine(prevCode, cursorPos, (line) => {
+        return line.slice(0, cursorPos.col) + char + line.slice(cursorPos.col);
+      });
 
-                const newCode: string[] = [
-                    ...prevCode.slice(0, cursorPos.line),
-                    newLine,
-                    ...prevCode.slice(cursorPos.line + 1)
-                ];
+      console.log("New Code after addChar:", newCode);
+      return newCode;
+    });
+  };
 
-                // HACK: It should be separated from the logic of updating a code.
-                moveCursorRight();
+  const delChar = (cursorPos: CursorPos): void => {
+    console.log("delChar called - Current CursorPos:", cursorPos);
 
-                return newCode;
-            }
-        );
-    };
+    updateCode((prevCode: string[]): string[] => {
+      console.log("Previous Code:", prevCode);
 
-    const delChar = (): void => {
-        updateCode(
-            (
-                prevCode: string[]
-            ): string[] => {
-                const cursorPos: CursorPos = getCursorPos();
+      if (!isInRange(prevCode, cursorPos)) {
+        console.error("Invalid cursorPos");
+        return prevCode;
+      }
 
-                if (!isInRange(prevCode, cursorPos)) {
-                    console.error("Invalid cursorPos");
+      // 行頭では削除しない（必要に応じた処理を検討）
+      if (cursorPos.col <= 0) {
+        console.error("Cannot delete character at the beginning of the line");
+        return prevCode;
+      }
 
-                    return prevCode; // No change.
-                }
+      const newCode = updateLine(prevCode, cursorPos, (line) => {
+        return line.slice(0, cursorPos.col - 1) + line.slice(cursorPos.col);
+      });
 
-                const targetLine: string = prevCode[cursorPos.line];
+      console.log("New Code after delChar:", newCode);
+      return newCode;
+    });
+  };
 
-                const newLine: string = (
-                    targetLine.slice(0, cursorPos.col - 1) +
-                    targetLine.slice(cursorPos.col)
-                );
-
-                const newCode: string[] = [
-                    ...prevCode.slice(0, cursorPos.line),
-                    newLine,
-                    ...prevCode.slice(cursorPos.line + 1)
-                ];
-
-                return newCode;
-            }
-        );
-
-        moveCursorLeft();
-    };
-
-    return {
-        addChar,
-        delChar,
-    };
+  return {
+    addChar,
+    delChar,
+  };
 }

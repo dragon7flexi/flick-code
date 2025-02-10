@@ -6,7 +6,9 @@ export default function ShiftedKeyLayout(
     return (
         <View
             style={styles.container}
-        ></View>
+        >
+            
+        </View>
     )
 }
 
