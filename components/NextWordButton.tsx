@@ -1,14 +1,39 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
+import { useCursorPosServices } from "@/services/cursorServices";
+import { codeState } from "@/states/codeState";
+import { cursorPosState } from "@/states/cursorPosState";
+import { CursorPos } from "@/types/cursorPos";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 
 export default function NextWordButton() {
+    const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
+    const code: string[] = useRecoilValue(codeState);
+
+    const { getNextWordCursorPosIfMovable } = useCursorPosServices();
+
+    const handlePress = (): void => {
+        setCursorPos(
+            (
+                prevCursorPos: CursorPos,
+            ): CursorPos => {
+                const newCursorPos: CursorPos = getNextWordCursorPosIfMovable(
+                    code,
+                    prevCursorPos,
+                );
+
+                return newCursorPos;
+            }
+        );
+    };
 
     return (
         <View
             style={styles.container}
         >
             <TouchableOpacity
+                onPress={handlePress}
                 style={styles.button}
             >
                 <Text

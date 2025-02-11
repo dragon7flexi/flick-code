@@ -16,6 +16,14 @@ export interface CursorServices {
         code: string[],
         prevCursorPos: CursorPos,
     ) => CursorPos;
+    getNextWordCursorPosIfMovable: (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
+    getPrevWordCursorPosIfMovable: (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
 }
 
 export function useCursorPosServices(): CursorServices {
@@ -123,12 +131,84 @@ export function useCursorPosServices(): CursorServices {
         return nextCursorPos;
     };
 
+    const cursorJumpMilestones: string[] = [
+        " ", ",", ")","(", ":", ".",
+    ];
+
+    const getNextWordCursorPosIfMovable = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const targetLine: string = code[prevCursorPos.line];
+        const isCursorAtLastCol: boolean = prevCursorPos.col === targetLine.length;
+        const canNotMoveRight: boolean = isCursorAtLastCol;
+
+        if (canNotMoveRight) {
+            return prevCursorPos;
+        }
+
+        let newCursorPosCol: number | null;
+
+        for (let tmpPos = prevCursorPos.col + 1; tmpPos <= targetLine.length; ++tmpPos) {
+            if (cursorJumpMilestones.includes(targetLine[tmpPos])) {
+                newCursorPosCol = tmpPos;
+                break;
+            }
+
+            if (tmpPos === targetLine.length) {
+                newCursorPosCol = tmpPos;
+                break;
+            }
+        }
+
+        const newCursorPos: CursorPos = {
+            col: newCursorPosCol!,
+            line: prevCursorPos.line,
+        };
+
+        return newCursorPos;
+    };
+
+    const getPrevWordCursorPosIfMovable = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const targetLine: string = code[prevCursorPos.line];
+        const isCursorAtFirstCol: boolean = prevCursorPos.col === 0;
+        const canNotMoveLeft: boolean = isCursorAtFirstCol;
+
+        if (canNotMoveLeft) {
+            return prevCursorPos;
+        }
+
+        let newCursorPosCol: number | null = null;
+
+        for (let tmpPos = prevCursorPos.col - 2; tmpPos >= 0; --tmpPos) {
+            if (cursorJumpMilestones.includes(targetLine[tmpPos])) {
+                newCursorPosCol = tmpPos + 1;
+                break;
+            }
+        }
+
+        if (newCursorPosCol === null) {
+            newCursorPosCol = 0;
+        }
+
+        return {
+            col: newCursorPosCol,
+            line: prevCursorPos.line,
+        };
+    };
+    
+
     const cursorServices: CursorServices = {
         getUpCursorPosIfMovable,
         getLeftCursorPosIfMovable,
         getRightCursorPosIfMovable,
         getDownCursorPosIfMovable,
-    }
+        getNextWordCursorPosIfMovable,
+        getPrevWordCursorPosIfMovable,
+    };
 
     return cursorServices;
 }
