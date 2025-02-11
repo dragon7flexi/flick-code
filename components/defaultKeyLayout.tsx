@@ -7,7 +7,6 @@ import CursorMoveUpButton from "./CursorMoveUpButton";
 import CursorMoveLeftButton from "./CursorMoveLeftButton";
 import CursorMoveDownButton from "./CursorMoveDownButton";
 import ExitButton from "./ExitButton";
-import { FlickButton } from "./FlickButton";
 import CursorMoveRightButton from "./CursorMoveRightButton";
 import DeleteButton from "./DeleteButton";
 import SpaceButton from "./SpaceButton";
@@ -17,6 +16,7 @@ import CutAllButton from "./CutAllButton";
 import PasteButton from "./PasteButton";
 import ShiftButton from "./ShiftButton";
 import EnterButton from "./EnterButton";
+import FlickButton from "./FlickButton";
 
 interface Props {
     setIsShifted: React.Dispatch<SetStateAction<boolean>>;

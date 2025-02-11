@@ -55,8 +55,8 @@ export function useCodeServices(): CodeServices {
         const prevTargetLine: string = prevCode[cursorPos.line];
 
         const newTargetLine: string = (
-            prevTargetLine.slice(0, cursorPos.col) +
-            prevTargetLine.slice(cursorPos.col + 1)
+            prevTargetLine.slice(0, cursorPos.col - 1) +
+            prevTargetLine.slice(cursorPos.col)
         );
 
         const newCode: string[] = [

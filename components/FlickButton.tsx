@@ -25,14 +25,13 @@ interface Props {
     downValue: string;
 }
 
-export function FlickButton({
+export default function FlickButton({
     upValue,
     leftValue,
     centerValue,
     rightValue,
     downValue,
 }: Props) {
-    const code: string[] = useRecoilValue(codeState);
     const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
     const cursorPos: CursorPos = useRecoilValue(cursorPosState);
     const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
