@@ -1,14 +1,62 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
+import { useCodeServices } from "@/services/codeServices";
+import { useCursorPosServices } from "@/services/cursorPosServices";
+import { codeState } from "@/states/codeState";
+import { cursorPosState } from "@/states/cursorPosState";
+import { CursorPos } from "@/types/cursorPos";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useRecoilCallback } from "recoil";
 
 export default function EnterButton() {
+    const { generateCodeAfterLineAddition } = useCodeServices();
+    const { getFirstCursorPosOfUnderLineIfMovable } = useCursorPosServices();
+
+    const addLine = useRecoilCallback(
+        (
+            {
+                set,
+                snapshot,
+            }
+        ) => async () => {
+            const prevCursorPos: CursorPos = await snapshot.getPromise(
+                cursorPosState
+            );
+
+            const prevCode: string[] = await snapshot.getPromise(
+                codeState
+            );
+            
+            const newCode: string[] = generateCodeAfterLineAddition(
+                prevCode,
+                prevCursorPos,
+            );
+
+            set(codeState, newCode);
+
+            const newCursorPos: CursorPos = getFirstCursorPosOfUnderLineIfMovable(
+                newCode,
+                prevCursorPos,
+            );
+
+            set(cursorPosState, newCursorPos);
+        },
+        [
+            generateCodeAfterLineAddition,
+            getFirstCursorPosOfUnderLineIfMovable,
+        ],
+    );
+
+    const handlePress = (): void => {
+        addLine();
+    };
 
     return (
         <View
             style={styles.container}
         >
             <TouchableOpacity
+                onPress={handlePress}
                 style={styles.button}
             >
                 <Text

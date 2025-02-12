@@ -1,5 +1,6 @@
 import { LINE_NUM_WIDTH } from "@/constants/Size";
-import { CursorCoord, CursorPos } from "@/types/cursor";
+import { CursorCoord } from "@/types/cursorCoord";
+import { CursorPos } from "@/types/cursorPos";
 
 export function calcCursorTopLeftCoord(
     cursorPos: CursorPos,
@@ -7,7 +8,7 @@ export function calcCursorTopLeftCoord(
     lineHeight: number
 ): CursorCoord {
     return {
-        x: cursorPos.col * charWidth + LINE_NUM_WIDTH,
-        y: cursorPos.line * lineHeight
-    }
+        topLeftX: cursorPos.col * charWidth + LINE_NUM_WIDTH,
+        topLeftY: cursorPos.line * lineHeight,
+    };
 }

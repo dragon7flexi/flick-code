@@ -1,7 +1,7 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
 import { useCodeServices } from "@/services/codeServices";
-import { useCursorPosServices } from "@/services/cursorServices";
+import { useCursorPosServices } from "@/services/cursorPosServices";
 import { codeState } from "@/states/codeState";
 import { cursorPosState } from "@/states/cursorPosState";
 import { CursorPos } from "@/types/cursorPos";
@@ -47,7 +47,7 @@ export default function SpaceButton() {
         [
             generateCodeAfterCharAddition,
             getRightCursorPosIfMovable,
-        ]
+        ],
     );
 
     const handlePress = (): void => {

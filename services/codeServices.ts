@@ -11,6 +11,10 @@ export interface CodeServices {
         prevCode: string[],
         cursorPos: CursorPos,
     ) => string[];
+    generateCodeAfterLineAddition: (
+        prevCode: string[],
+        cursorPos: CursorPos,
+    ) => string[];
 }
 
 export function useCodeServices(): CodeServices {
@@ -46,7 +50,13 @@ export function useCodeServices(): CodeServices {
         prevCode: string[],
         cursorPos: CursorPos,
     ): string[] => {
-        if (!isInRange(prevCode, cursorPos)) {
+        if (
+            !isInRange(prevCode, cursorPos) &&
+            // TODO:
+            // when the delete button is pressed when the cursor is at a first col,
+            // delete the current line and move the string of the current line to the end of the previous line.
+            cursorPos.col === 0
+        ) {
             console.error("Invalid cursorPos");
 
             return prevCode;
@@ -68,9 +78,31 @@ export function useCodeServices(): CodeServices {
         return newCode;
     };
 
+    const generateCodeAfterLineAddition = (
+        prevCode: string[],
+        cursorPos: CursorPos,
+    ): string[] => {
+        const currLine: string = prevCode[cursorPos.line];
+        const beforeCursor: string = currLine.slice(0, cursorPos.col);
+        const afterCursor: string = currLine.slice(cursorPos.col);
+
+        const newLines = afterCursor
+            ? [beforeCursor, afterCursor]
+            : [beforeCursor, ""]
+
+        const newCode: string[] = [
+            ...prevCode.slice(0, cursorPos.line),
+            ...newLines,
+            ...prevCode.slice(cursorPos.line + 1),
+        ];
+
+        return newCode;
+    };
+
     const codeServices: CodeServices = {
         generateCodeAfterCharAddition,
         generateCodeAfterCharDeletion,
+        generateCodeAfterLineAddition,
     };
 
     return codeServices;

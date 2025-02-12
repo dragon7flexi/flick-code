@@ -1,6 +1,6 @@
 import { CursorPos } from "@/types/cursorPos";
 
-export interface CursorServices {
+export interface CursorPosServices {
     getUpCursorPosIfMovable: (
         code: string[],
         prevCursorPos: CursorPos,
@@ -24,9 +24,13 @@ export interface CursorServices {
         code: string[],
         prevCursorPos: CursorPos,
     ) => CursorPos;
+    getFirstCursorPosOfUnderLineIfMovable: (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
 }
 
-export function useCursorPosServices(): CursorServices {
+export function useCursorPosServices(): CursorPosServices {
     const getUpCursorPosIfMovable = (
         code: string[],
         prevCursorPos: CursorPos,
@@ -199,16 +203,38 @@ export function useCursorPosServices(): CursorServices {
             line: prevCursorPos.line,
         };
     };
-    
 
-    const cursorServices: CursorServices = {
+    const getFirstCursorPosOfUnderLineIfMovable = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const isCursorAtLastLine: boolean = prevCursorPos.line === code.length - 1;
+        const canNotMoveToFirstColOfUnderLine: boolean = isCursorAtLastLine;
+
+        if (canNotMoveToFirstColOfUnderLine) {
+            return prevCursorPos;
+        }
+
+        const newCursorPosCol: number = 0;
+        const newCursorPosLine: number = prevCursorPos.line + 1;
+
+        const newCursorPos: CursorPos = {
+            col: newCursorPosCol,
+            line: newCursorPosLine,
+        };
+
+        return newCursorPos;
+    };
+
+    const CursorPosServices: CursorPosServices = {
         getUpCursorPosIfMovable,
         getLeftCursorPosIfMovable,
         getRightCursorPosIfMovable,
         getDownCursorPosIfMovable,
         getNextWordCursorPosIfMovable,
         getPrevWordCursorPosIfMovable,
+        getFirstCursorPosOfUnderLineIfMovable,
     };
 
-    return cursorServices;
+    return CursorPosServices;
 }
