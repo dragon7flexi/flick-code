@@ -28,6 +28,10 @@ export interface CursorPosServices {
         code: string[],
         prevCursorPos: CursorPos,
     ) => CursorPos;
+    getFirstCursorPosOfUpperLineIfMovable: (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
 }
 
 export function useCursorPosServices(): CursorPosServices {
@@ -226,6 +230,28 @@ export function useCursorPosServices(): CursorPosServices {
         return newCursorPos;
     };
 
+    const getFirstCursorPosOfUpperLineIfMovable = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const isCursorAtFirstLine: boolean = prevCursorPos.line === 0;
+        const canNotMoveToFirstColOfUpperLine: boolean = isCursorAtFirstLine;
+
+        if (canNotMoveToFirstColOfUpperLine) {
+            return prevCursorPos;
+        }
+
+        const newCursorPosCol: number = 0;
+        const newCursorPosLine: number = prevCursorPos.line - 1;
+
+        const newCursorPos: CursorPos = {
+            col: newCursorPosCol,
+            line: newCursorPosLine,
+        };
+
+        return newCursorPos;
+    };
+
     const CursorPosServices: CursorPosServices = {
         getUpCursorPosIfMovable,
         getLeftCursorPosIfMovable,
@@ -234,6 +260,7 @@ export function useCursorPosServices(): CursorPosServices {
         getNextWordCursorPosIfMovable,
         getPrevWordCursorPosIfMovable,
         getFirstCursorPosOfUnderLineIfMovable,
+        getFirstCursorPosOfUpperLineIfMovable,
     };
 
     return CursorPosServices;

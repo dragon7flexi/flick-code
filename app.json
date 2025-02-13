@@ -14,7 +14,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.dragon7flexi.customkeyboardprac"
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c7564421-0c5b-489e-8001-9ae2f4559ac1"
+      }
     }
   }
 }

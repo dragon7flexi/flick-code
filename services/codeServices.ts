@@ -50,20 +50,30 @@ export function useCodeServices(): CodeServices {
         prevCode: string[],
         cursorPos: CursorPos,
     ): string[] => {
-        if (
-            !isInRange(prevCode, cursorPos) &&
-            // TODO:
-            // when the delete button is pressed when the cursor is at a first col,
-            // delete the current line and move the string of the current line to the end of the previous line.
-            cursorPos.col === 0
-        ) {
+        if (!isInRange(prevCode, cursorPos)) {
             console.error("Invalid cursorPos");
-
             return prevCode;
         }
 
-        const prevTargetLine: string = prevCode[cursorPos.line];
+        // Handle the case where the cursor is at the first column
+        if (cursorPos.col === 0 && cursorPos.line > 0) {
+            const prevLine: string = prevCode[cursorPos.line - 1];
+            const currentLine: string = prevCode[cursorPos.line];
 
+            // Merge the previous line with the current line
+            const newLine = prevLine + currentLine;
+
+            const newCode: string[] = [
+                ...prevCode.slice(0, cursorPos.line - 1),  // Keep lines before the merged one
+                newLine,  // New merged line
+                ...prevCode.slice(cursorPos.line + 1),  // Keep lines after the deleted one
+            ];
+
+            return newCode;
+        }
+
+        // Standard character deletion logic
+        const prevTargetLine: string = prevCode[cursorPos.line];
         const newTargetLine: string = (
             prevTargetLine.slice(0, cursorPos.col - 1) +
             prevTargetLine.slice(cursorPos.col)
@@ -77,6 +87,7 @@ export function useCodeServices(): CodeServices {
 
         return newCode;
     };
+
 
     const generateCodeAfterLineAddition = (
         prevCode: string[],

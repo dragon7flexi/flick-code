@@ -2,17 +2,23 @@ import { CODE_BACKGROUND_COLOR } from "@/constants/Colors";
 import { CODE_FONT_FAMILY } from "@/constants/FontFamily";
 import { CODE_CONTAINER_HEIGHT, CODE_FONT_SIZE, LINE_HEIGHT, LINE_NUM_WIDTH } from "@/constants/Size";
 import { codeState } from "@/states/codeState";
+import { scrollYState } from "@/states/scrollYState";
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 
 export default function Code() {
-    const code = useRecoilValue(codeState);
+    const code: string[] = useRecoilValue(codeState);
+    const scrollY: number = useRecoilValue(scrollYState);
 
     return (
         <View
             style={styles.container}
         > 
-            {code.map((line, lineIdx) => (
+            {code.map(
+                (
+                    line: string, 
+                    lineIdx: number,
+                ) => (
                 <View
                     key={lineIdx}
                     style={styles.lineContainer}
@@ -20,7 +26,7 @@ export default function Code() {
                     <Text
                         style={styles.lineNum}
                     >
-                        {lineIdx + 1}
+                        {lineIdx + 1 + scrollY}
                     </Text>
                     <Text 
                         style={styles.line}

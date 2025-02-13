@@ -1,4 +1,4 @@
-import { CursorPos } from "@/types/cursor";
+import { CursorPos } from "@/types/cursorPos";
 
 export function isInRange(
     code: string[],

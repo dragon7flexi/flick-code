@@ -1,14 +1,35 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { codeState } from "@/states/codeState";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import { copyToClipboard } from "@/utils/clipboardUtils";
+import { CursorPos } from "@/types/cursorPos";
+import { cursorPosState } from "@/states/cursorPosState";
 
 export default function CutAllButton() {
+    const code: string[] = useRecoilValue(codeState);
+    const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
+    const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
+
+    const handlePress = (): void => {
+        const codeStr: string = code.join("\n");
+        copyToClipboard(codeStr);
+        Alert.alert("cliped");
+
+        setCode([""]);
+        setCursorPos({
+            line: 0,
+            col: 0,
+        });
+    };
 
     return (
         <View
             style={styles.container}
         >
             <TouchableOpacity
+                onPress={handlePress}
                 style={styles.button}
             >
                 <Text

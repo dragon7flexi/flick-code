@@ -5,6 +5,7 @@ import { useCursorPosServices } from "@/services/cursorPosServices";
 import { codeState } from "@/states/codeState";
 import { cursorPosState } from "@/states/cursorPosState";
 import { CursorPos } from "@/types/cursorPos";
+import { getUpdatedStatesOnEntered } from "@/utils/EnterButtonUtils";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilCallback } from "recoil";
 
@@ -12,39 +13,17 @@ export default function EnterButton() {
     const { generateCodeAfterLineAddition } = useCodeServices();
     const { getFirstCursorPosOfUnderLineIfMovable } = useCursorPosServices();
 
-    const addLine = useRecoilCallback(
-        (
-            {
-                set,
-                snapshot,
-            }
-        ) => async () => {
-            const prevCursorPos: CursorPos = await snapshot.getPromise(
-                cursorPosState
-            );
+    const addLine = useRecoilCallback(({ set, snapshot }) => async () => {
+            // get previous states
+            const prevCursorPos: CursorPos = await snapshot.getPromise(cursorPosState);
+            const prevCode: string[] = await snapshot.getPromise(codeState);
 
-            const prevCode: string[] = await snapshot.getPromise(
-                codeState
-            );
-            
-            const newCode: string[] = generateCodeAfterLineAddition(
-                prevCode,
-                prevCursorPos,
-            );
-
+            // update states
+            const { newCode, newCursorPos } = getUpdatedStatesOnEntered(prevCode, prevCursorPos);
             set(codeState, newCode);
-
-            const newCursorPos: CursorPos = getFirstCursorPosOfUnderLineIfMovable(
-                newCode,
-                prevCursorPos,
-            );
-
             set(cursorPosState, newCursorPos);
         },
-        [
-            generateCodeAfterLineAddition,
-            getFirstCursorPosOfUnderLineIfMovable,
-        ],
+        [generateCodeAfterLineAddition,getFirstCursorPosOfUnderLineIfMovable],
     );
 
     const handlePress = (): void => {
