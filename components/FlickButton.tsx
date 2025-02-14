@@ -32,9 +32,7 @@ export default function FlickButton({
     rightValue,
     downValue,
 }: Props) {
-    const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
     const cursorPos: CursorPos = useRecoilValue(cursorPosState);
-    const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
 
     const { getRightCursorPosIfMovable } = useCursorPosServices();
     const { generateCodeAfterCharAddition } = useCodeServices();

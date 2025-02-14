@@ -1,14 +1,27 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
+import React, { SetStateAction } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function ShiftButton() {
+interface Props {
+    setIsShifted: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export default function ShiftButton({
+    setIsShifted
+}: Props) {
+    const handlePress = (): void => {
+        setIsShifted((prev: boolean): boolean => {
+            return !prev;
+        });
+    }
 
     return (
         <View
             style={styles.container}
         >
             <TouchableOpacity
+                onPress={handlePress}
                 style={styles.button}
             >
                 <Text

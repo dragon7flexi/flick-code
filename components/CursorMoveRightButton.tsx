@@ -7,7 +7,7 @@ import { CursorPos } from "@/types/cursorPos";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 
-export default function CursorMoveLeftButton() {
+export default function CursorMoveRightButton() {
     const code: string[] = useRecoilValue(codeState);
     const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
     const { getRightCursorPosIfMovable } = useCursorPosServices();

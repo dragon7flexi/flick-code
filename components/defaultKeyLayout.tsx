@@ -121,7 +121,9 @@ export default function DefaultKeyLayout({
                 rightValue=";"
                 downValue="0"
             />
-            <ShiftButton />
+            <ShiftButton
+                setIsShifted={setIsShifted}
+            />
             <FlickButton
                 upValue="?"
                 leftValue=","

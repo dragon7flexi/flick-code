@@ -1,5 +1,7 @@
 import { CursorPos } from "@/types/cursorPos";
 import { isInRange } from "@/utils/codeServiceUtils";
+import { isCursorWithinBracket } from "@/utils/EnterButtonUtils";
+import { preventAutoHideAsync } from "expo-router/build/utils/splash";
 
 export interface CodeServices {
     generateCodeAfterCharAddition: (
@@ -17,6 +19,8 @@ export interface CodeServices {
     ) => string[];
 }
 
+const brackets = ["()", "{}", "[]"];
+
 export function useCodeServices(): CodeServices {
     const generateCodeAfterCharAddition = (
         prevCode: string[],
@@ -30,6 +34,16 @@ export function useCodeServices(): CodeServices {
         }
 
         const prevTargetLine: string = prevCode[cursorPos.line];
+
+        // auto bracket completion
+        if (cursorPos.col === prevTargetLine.length) {
+            for (const bracket of brackets) {
+                if (char === bracket[0]) {
+                    console.log("aiu")
+                    char += bracket[1];
+                }
+            }
+        }
         
         const newTargetLine: string = (
             prevTargetLine.slice(0, cursorPos.col) +
@@ -72,6 +86,22 @@ export function useCodeServices(): CodeServices {
             return newCode;
         }
 
+        if (isCursorWithinBracket(prevCode, cursorPos)) {
+            const prevTargetLine: string = prevCode[cursorPos.line];
+            const newTargetLine: string = (
+                prevTargetLine.slice(0, cursorPos.col - 1) +
+                prevTargetLine.slice(cursorPos.col + 1) // delete a behind bracket
+            );
+
+            const newCode: string[] = [
+                ...prevCode.slice(0, cursorPos.line),
+                newTargetLine,
+                ...prevCode.slice(cursorPos.line + 1),
+            ];
+
+            return newCode;            
+        }
+
         // Standard character deletion logic
         const prevTargetLine: string = prevCode[cursorPos.line];
         const newTargetLine: string = (
@@ -87,7 +117,6 @@ export function useCodeServices(): CodeServices {
 
         return newCode;
     };
-
 
     const generateCodeAfterLineAddition = (
         prevCode: string[],

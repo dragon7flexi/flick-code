@@ -12,7 +12,9 @@ export default function Keyboard() {
             style={styles.container}
         >
             {isShifted ? (
-                <ShiftedKeyLayout />
+                <ShiftedKeyLayout
+                    setIsShifted={setIsShifted}
+                />
             ) : (
                 <DefaultKeyLayout
                     setIsShifted={setIsShifted}

@@ -1,6 +1,8 @@
 import { useCodeServices } from "@/services/codeServices";
 import { CursorPosServices, useCursorPosServices } from "@/services/cursorPosServices";
+import { ProgrammingLang, programmingLangState } from "@/states/programmingLangState";
 import { CursorPos } from "@/types/cursorPos";
+import { useRecoilValue } from "recoil";
 
 export interface UpdatedStatesOnEntered {
     newCode: string[];
@@ -16,6 +18,29 @@ export function getUpdatedStatesOnEntered(
 
     // If a current line is indented, add an indent to a next line as well.
     const leadingSpacesCnt: number = countLeadingSpaces(prevCode, prevCursorPos);
+
+    if (isLeftCharColon(prevCode, prevCursorPos)) {
+        let newCode: string[];
+        let newCursorPos: CursorPos;
+
+        // add a line
+        newCode = generateCodeAfterLineAddition(prevCode, prevCursorPos);
+        newCursorPos = getFirstCursorPosOfUnderLineIfMovable(newCode, prevCursorPos);
+
+        // add a tabSpace
+        const tabSpace: string = "    ";
+        const tabLen: number = tabSpace.length;
+        newCode = generateCodeAfterCharAddition(newCode, tabSpace, newCursorPos);
+        for (let i = 0; i < tabLen; ++i) {
+            newCursorPos = getRightCursorPosIfMovable(newCode, newCursorPos);
+        }
+
+        return {
+            newCode,
+            newCursorPos,
+        };
+    }
+
 
     if (isCursorWithinBracket(prevCode, prevCursorPos)) {
         console.log("aaaa")
@@ -65,7 +90,7 @@ export function getUpdatedStatesOnEntered(
     };
 }
 
-function isCursorWithinBracket(
+export function isCursorWithinBracket(
     code: string[],
     cursorPos: CursorPos,
 ): boolean {
@@ -90,7 +115,18 @@ function isCursorWithinBracket(
     return isWithin;
 }
 
-
+function isLeftCharColon(
+    code: string[],
+    cursorPos: CursorPos,
+): boolean {
+    const currLine: string = code[cursorPos.line];
+    if (cursorPos.col === 0) {
+        return false;
+    }
+    const leftChar: string = currLine[cursorPos.col - 1];
+    
+    return leftChar === ":";
+}
 
 function countLeadingSpaces(
     code: string[],
