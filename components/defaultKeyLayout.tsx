@@ -17,6 +17,7 @@ import PasteButton from "./PasteButton";
 import ShiftButton from "./ShiftButton";
 import EnterButton from "./EnterButton";
 import FlickButton from "./FlickButton";
+import SetStatusBarColorButton from "./setStatsuBarColorButton";
 
 interface Props {
     setIsShifted: React.Dispatch<SetStateAction<boolean>>;
@@ -113,11 +114,11 @@ export default function DefaultKeyLayout({
             <SpaceButton />
 
             {/* 5 */}
-            <ExitButton />
+            <SetStatusBarColorButton />
             <FlickButton
                 upValue=":"
-                leftValue='"'
-                centerValue="'"
+                leftValue="="
+                centerValue=","
                 rightValue=";"
                 downValue="0"
             />
@@ -125,11 +126,11 @@ export default function DefaultKeyLayout({
                 setIsShifted={setIsShifted}
             />
             <FlickButton
-                upValue="?"
-                leftValue=","
+                upValue='"'
+                leftValue="'"
                 centerValue="."
                 rightValue="!"
-                downValue="="
+                downValue="?"
             />
             <EnterButton />
         </View>

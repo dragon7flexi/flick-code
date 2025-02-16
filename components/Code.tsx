@@ -1,3 +1,4 @@
+import { LINE_CNT_IN_CODE } from "@/constants/Code";
 import { CODE_BACKGROUND_COLOR } from "@/constants/Colors";
 import { CODE_FONT_FAMILY } from "@/constants/FontFamily";
 import { CODE_CONTAINER_HEIGHT, CODE_FONT_SIZE, LINE_HEIGHT, LINE_NUM_WIDTH } from "@/constants/Size";
@@ -10,11 +11,13 @@ export default function Code() {
     const code: string[] = useRecoilValue(codeState);
     const scrollY: number = useRecoilValue(scrollYState);
 
+    const codeInScreen: string[] = code.slice(scrollY, LINE_CNT_IN_CODE);
+
     return (
         <View
             style={styles.container}
         > 
-            {code.map(
+            {codeInScreen.map(
                 (
                     line: string, 
                     lineIdx: number,

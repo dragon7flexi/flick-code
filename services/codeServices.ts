@@ -1,7 +1,6 @@
 import { CursorPos } from "@/types/cursorPos";
 import { isInRange } from "@/utils/codeServiceUtils";
 import { isCursorWithinBracket } from "@/utils/EnterButtonUtils";
-import { preventAutoHideAsync } from "expo-router/build/utils/splash";
 
 export interface CodeServices {
     generateCodeAfterCharAddition: (
@@ -17,6 +16,10 @@ export interface CodeServices {
         prevCode: string[],
         cursorPos: CursorPos,
     ) => string[];
+    generateCodeAfterLineDeletion: (
+        prevCode: string[],
+        cursorPos: CursorPos,
+    ) => string[]
 }
 
 const brackets = ["()", "{}", "[]"];
@@ -36,12 +39,10 @@ export function useCodeServices(): CodeServices {
         const prevTargetLine: string = prevCode[cursorPos.line];
 
         // auto bracket completion
-        if (cursorPos.col === prevTargetLine.length) {
-            for (const bracket of brackets) {
-                if (char === bracket[0]) {
-                    console.log("aiu")
-                    char += bracket[1];
-                }
+        // TODO: make explanatory variables
+        for (const bracket of brackets) {
+            if (char === bracket[0]) {
+                char += bracket[1];
             }
         }
         
@@ -139,10 +140,27 @@ export function useCodeServices(): CodeServices {
         return newCode;
     };
 
+    const generateCodeAfterLineDeletion = (
+        prevCode: string[],
+        prevCursorPos: CursorPos,
+    ): string[] => {
+        if (prevCursorPos.line === 0) {
+            return prevCode;
+        }
+
+        const newCode: string[] = [
+            ...prevCode.slice(0, prevCursorPos.line),
+            ...prevCode.slice(prevCursorPos.line + 1),
+        ];
+
+        return newCode;
+    };
+
     const codeServices: CodeServices = {
         generateCodeAfterCharAddition,
         generateCodeAfterCharDeletion,
         generateCodeAfterLineAddition,
+        generateCodeAfterLineDeletion,
     };
 
     return codeServices;

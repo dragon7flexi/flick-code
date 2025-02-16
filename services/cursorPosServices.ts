@@ -32,6 +32,11 @@ export interface CursorPosServices {
         code: string[],
         prevCursorPos: CursorPos,
     ) => CursorPos;
+    findCursorPosByChar: (
+        code: string[],
+        prevCursorPos: CursorPos,
+        targetChar: string,
+    ) => CursorPos;
 }
 
 export function useCursorPosServices(): CursorPosServices {
@@ -252,6 +257,30 @@ export function useCursorPosServices(): CursorPosServices {
         return newCursorPos;
     };
 
+    const findCursorPosByChar = (
+        code: string[],
+        prevCursorPos: CursorPos,
+        targetChar: string,
+    ): CursorPos => {
+        const currLine: string = code[prevCursorPos.line];
+
+        let newCursorPosCol = prevCursorPos.col;
+        for (let i = prevCursorPos.col; i <= currLine.length; ++i) {
+            const tmpChar: string = currLine[i];
+
+            if (tmpChar === targetChar) {
+                newCursorPosCol = i;
+            }
+        }
+
+        const newCursorPos: CursorPos = {
+            line: prevCursorPos.line,
+            col: newCursorPosCol,
+        };
+
+        return newCursorPos;
+    };
+
     const CursorPosServices: CursorPosServices = {
         getUpCursorPosIfMovable,
         getLeftCursorPosIfMovable,
@@ -261,6 +290,7 @@ export function useCursorPosServices(): CursorPosServices {
         getPrevWordCursorPosIfMovable,
         getFirstCursorPosOfUnderLineIfMovable,
         getFirstCursorPosOfUpperLineIfMovable,
+        findCursorPosByChar,
     };
 
     return CursorPosServices;
