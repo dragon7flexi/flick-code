@@ -23,12 +23,12 @@ export function getUpdatedStatesOnEntered(
         let newCode: string[];
         let newCursorPos: CursorPos;
 
-        // add a line
+        // add a empty line at first
         newCode = generateCodeAfterLineAddition(prevCode, prevCursorPos);
         newCursorPos = getFirstCursorPosOfUnderLineIfMovable(newCode, prevCursorPos);
 
-        // add a tabSpace
-        const tabSpace: string = "    ";
+        // add a tabSpace for the line
+        const tabSpace: string = " ".repeat(leadingSpacesCnt + 4);
         const tabLen: number = tabSpace.length;
         newCode = generateCodeAfterCharAddition(newCode, tabSpace, newCursorPos);
         for (let i = 0; i < tabLen; ++i) {
@@ -128,7 +128,7 @@ function isLeftCharColon(
     return leftChar === ":";
 }
 
-function countLeadingSpaces(
+export function countLeadingSpaces(
     code: string[],
     cursorPos: CursorPos,
 ): number {

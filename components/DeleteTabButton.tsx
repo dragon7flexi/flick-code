@@ -1,26 +1,30 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
+import { useCodeServices } from "@/services/codeServices";
+import { useCursorPosServices } from "@/services/cursorPosServices";
 import { codeState } from "@/states/codeState";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
-import { copyToClipboard } from "@/utils/clipboardUtils";
-import { CursorPos } from "@/types/cursorPos";
 import { cursorPosState } from "@/states/cursorPosState";
+import { CursorPos } from "@/types/cursorPos";
+import { getUpdatedStatesOnTabDeleteButton } from "@/utils/DeleteTabButtonUtils";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useRecoilCallback } from "recoil";
 
-export default function CutAllButton() {
-    const code: string[] = useRecoilValue(codeState);
-    const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
-    const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
+export function DeleteTabButton() {
+    const deleteTab = useRecoilCallback(({ set, snapshot }) => async () => {
+            // get previous states
+            const prevCursorPos: CursorPos = await snapshot.getPromise(cursorPosState);
+            const prevCode: string[] = await snapshot.getPromise(codeState);
+
+            // update states
+            const { newCode, newCursorPos } = getUpdatedStatesOnTabDeleteButton(prevCode, prevCursorPos);
+            set(codeState, newCode);
+            set(cursorPosState, newCursorPos);
+        },
+        [],
+    );
 
     const handlePress = (): void => {
-        const codeStr: string = code.join("\n");
-        copyToClipboard(codeStr);
-
-        setCode([""]);
-        setCursorPos({
-            line: 0,
-            col: 0,
-        });
+        deleteTab();
     };
 
     return (
@@ -34,7 +38,7 @@ export default function CutAllButton() {
                 <Text
                     style={styles.buttonText}
                 >
-                    CutAll
+                    DelTab
                 </Text>
             </TouchableOpacity>
         </View>

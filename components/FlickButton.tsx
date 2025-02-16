@@ -4,6 +4,7 @@ import { useCodeServices } from "@/services/codeServices";
 import { useCursorPosServices } from "@/services/cursorPosServices";
 import { codeState } from "@/states/codeState";
 import { cursorPosState } from "@/states/cursorPosState";
+import { isShiftedState } from "@/states/isShiftedState";
 import { CursorPos } from "@/types/cursorPos";
 import { determineDirection, FlickDirection, getValueByDirection } from "@/utils/FlickButtonUtils";
 import React, { useEffect } from "react";
@@ -33,6 +34,8 @@ export default function FlickButton({
     downValue,
 }: Props) {
     const cursorPos: CursorPos = useRecoilValue(cursorPosState);
+    const isShifted: boolean = useRecoilValue(isShiftedState);
+    const setIsShifted: SetterOrUpdater<boolean> = useSetRecoilState(isShiftedState);
 
     const { getRightCursorPosIfMovable } = useCursorPosServices();
     const { generateCodeAfterCharAddition } = useCodeServices();
@@ -79,6 +82,10 @@ export default function FlickButton({
         );
 
         updateCodeAndCursor(currValue, cursorPos);
+
+        if (isShifted) {
+            setIsShifted(false);
+        }
     };
 
     const panResponder = PanResponder.create({

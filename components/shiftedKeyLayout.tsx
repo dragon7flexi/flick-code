@@ -20,22 +20,17 @@ import CutLineButton from "./CutLineButton";
 import LineJumpButton from "./LineJumpButton";
 import WordJumpButton from "./WordJumpButton";
 import SetStatusBarColorButton from "./setStatsuBarColorButton";
+import { DeleteTabButton } from "./DeleteTabButton";
 
-interface Props {
-    setIsShifted: React.Dispatch<SetStateAction<boolean>>;
-}
-
-export default function ShiftedKeyLayout({
-    setIsShifted,
-}: Props) {
+export default function ShiftedKeyLayout() {
     return (
         <View
             style={styles.container}
         >
             {/* 1 */}
-            <TabButton />
+            <DeleteTabButton />
             <LineJumpButton />
-            <CutAllButton />
+            <CutLineButton />
             <WordJumpButton />
             <PasteButton />
 
@@ -62,7 +57,7 @@ export default function ShiftedKeyLayout({
                 rightValue=")"
                 downValue="3"
             />
-            <CutLineButton />
+            <DeleteButton />
 
             {/* 2 */}
             <CursorMoveLeftButton />
@@ -123,9 +118,7 @@ export default function ShiftedKeyLayout({
                 rightValue="|"
                 downValue="#"
             />
-            <ShiftButton
-                setIsShifted={setIsShifted}
-            />
+            <ShiftButton />
             <FlickButton
                 upValue="*"
                 leftValue="<"

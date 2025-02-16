@@ -11,7 +11,7 @@ export default function Code() {
     const code: string[] = useRecoilValue(codeState);
     const scrollY: number = useRecoilValue(scrollYState);
 
-    const codeInScreen: string[] = code.slice(scrollY, LINE_CNT_IN_CODE);
+    const codeInScreen: string[] = code.slice(scrollY, scrollY + LINE_CNT_IN_CODE);
 
     return (
         <View

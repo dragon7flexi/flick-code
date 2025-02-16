@@ -1,15 +1,13 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
+import { isShiftedState } from "@/states/isShiftedState";
 import React, { SetStateAction } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 
-interface Props {
-    setIsShifted: React.Dispatch<SetStateAction<boolean>>;
-}
+export default function ShiftButton() {
+    const setIsShifted: SetterOrUpdater<boolean> = useSetRecoilState(isShiftedState);
 
-export default function ShiftButton({
-    setIsShifted
-}: Props) {
     const handlePress = (): void => {
         setIsShifted((prev: boolean): boolean => {
             return !prev;

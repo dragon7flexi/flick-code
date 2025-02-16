@@ -1,24 +1,22 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useDebugValue, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { KEYBOARD_HEIGHT } from "@/constants/Size";
 import DefaultKeyLayout from "./defaultKeyLayout";
 import ShiftedKeyLayout from "./shiftedKeyLayout";
+import { useRecoilValue } from "recoil";
+import { isShiftedState } from "@/states/isShiftedState";
 
 export default function Keyboard() {
-    const [isShifted, setIsShifted] = useState<boolean>(false);
+    const isShifted: boolean = useRecoilValue(isShiftedState);
 
     return (
         <View
             style={styles.container}
         >
             {isShifted ? (
-                <ShiftedKeyLayout
-                    setIsShifted={setIsShifted}
-                />
+                <ShiftedKeyLayout />
             ) : (
-                <DefaultKeyLayout
-                    setIsShifted={setIsShifted}
-                />
+                <DefaultKeyLayout />
             )}
         </View>
     );

@@ -19,14 +19,7 @@ import EnterButton from "./EnterButton";
 import FlickButton from "./FlickButton";
 import SetStatusBarColorButton from "./setStatsuBarColorButton";
 
-interface Props {
-    setIsShifted: React.Dispatch<SetStateAction<boolean>>;
-}
-
-export default function DefaultKeyLayout({
-    setIsShifted,
-}: Props) {
-
+export default function DefaultKeyLayout() {
     return (
         <View
             style={styles.container}
@@ -122,9 +115,7 @@ export default function DefaultKeyLayout({
                 rightValue=";"
                 downValue="0"
             />
-            <ShiftButton
-                setIsShifted={setIsShifted}
-            />
+            <ShiftButton />
             <FlickButton
                 upValue='"'
                 leftValue="'"
