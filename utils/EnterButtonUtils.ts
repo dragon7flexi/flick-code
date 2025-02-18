@@ -107,7 +107,7 @@ export function isCursorWithinBracket(
 
     console.log(`Checking brackets: leftChar="${leftChar}", rightChar="${rightChar}"`);
 
-    const brackets: string[] = ["()", "{}", "[]"];
+    const brackets: string[] = ["()", "{}", "[]", '""']; // HACK: separate the semicolon from the list or rename the function.
 
     const isWithin = brackets.includes(leftChar + rightChar);
     console.log(`isCursorWithinBracket result: ${isWithin}`);

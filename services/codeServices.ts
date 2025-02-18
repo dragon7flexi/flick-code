@@ -45,6 +45,11 @@ export function useCodeServices(): CodeServices {
                 char += bracket[1];
             }
         }
+
+        // auto "" completion
+        if (char === '"') {
+            char += '"';
+        }
         
         const newTargetLine: string = (
             prevTargetLine.slice(0, cursorPos.col) +
