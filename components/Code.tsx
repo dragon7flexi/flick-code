@@ -5,6 +5,7 @@ import { CODE_CONTAINER_HEIGHT, CODE_FONT_SIZE, LINE_HEIGHT, LINE_NUM_WIDTH } fr
 import { codeState } from "@/states/codeState";
 import { scrollYState } from "@/states/scrollYState";
 import { Token, tokenizeCode } from "@/utils/tokenizer";
+import { useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
@@ -29,7 +30,7 @@ export default function Code() {
                 case 2:
                     return "rgb(66, 117, 245)";    // Level 3 (blue)
                 default:
-                    return "white";   // Default fallback
+                    return "green";   // Default fallback
             }
         };
 
@@ -44,7 +45,7 @@ export default function Code() {
                 style = { color: "rgb(255, 161, 234)" };
                 break;
             case "operator":
-                style = { color: "rgb(250, 145, 80)" };
+                style = { color: "rgb(255, 150, 85)" };
                 break;
             case "number":
                 style = { color: "rgb(221, 247, 190)" };

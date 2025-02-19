@@ -55,6 +55,7 @@ export function getUpdatedStatesOnEntered(
         const tabLen: number = 4;
         const tabSpace: string = " ".repeat(leadingSpacesCnt + tabLen);
         newCode = generateCodeAfterCharAddition(newCode, tabSpace, newCursorPos);
+
         for (let i = 0; i < tabSpace.length; ++i) {
             newCursorPos = getRightCursorPosIfMovable(newCode, newCursorPos);
         }
@@ -62,6 +63,10 @@ export function getUpdatedStatesOnEntered(
         // Insert a line break
         newCode = generateCodeAfterLineAddition(newCode, newCursorPos);
 
+        newCode = generateCodeAfterCharAddition(newCode, " ".repeat(leadingSpacesCnt), {
+            line: newCursorPos.line + 1,
+            col: 0,
+        });
         return {
             newCode,
             newCursorPos,

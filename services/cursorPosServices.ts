@@ -1,3 +1,5 @@
+import { LINE_CNT_IN_CODE } from "@/constants/Code";
+import { cursorPosState } from "@/states/cursorPosState";
 import { CursorPos } from "@/types/cursorPos";
 
 export interface CursorPosServices {
@@ -36,6 +38,20 @@ export interface CursorPosServices {
         code: string[],
         prevCursorPos: CursorPos,
         targetChar: string,
+    ) => CursorPos;
+    getFirstCursorPosOfCurrLine: (
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
+    getLastCursorPosOfCurrLine: (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
+    getCursorPosOnPgUp: (
+        prevCursorPos: CursorPos,
+    ) => CursorPos;
+    getCursorPosOnPgDn: (
+        code: string[],
+        prevCursorPos: CursorPos,
     ) => CursorPos;
 }
 
@@ -281,6 +297,67 @@ export function useCursorPosServices(): CursorPosServices {
         return newCursorPos;
     };
 
+    const getFirstCursorPosOfCurrLine = (
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const newCursorPosCol: number = 0;
+        const newCursorPos: CursorPos = {
+            line: prevCursorPos.line,
+            col: newCursorPosCol,
+        };
+
+        return newCursorPos;
+    };
+
+    const getLastCursorPosOfCurrLine = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const newCursorPosCol: number = code[prevCursorPos.line].length;
+        const newCursorPos: CursorPos = {
+            line: prevCursorPos.line,
+            col: newCursorPosCol,
+        }
+
+        return newCursorPos;
+    };
+    
+    const getCursorPosOnPgUp = (
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const newCursorPosLine: number = Math.max(
+            0,
+            prevCursorPos.line - Math.floor(LINE_CNT_IN_CODE / 2),
+        );
+
+        const newCursorPosCol: number = 0;
+
+        const newCursorPos: CursorPos = {
+            line: newCursorPosLine,
+            col: newCursorPosCol,
+        };
+
+        return newCursorPos;
+    };
+
+    const getCursorPosOnPgDn = (
+        code: string[],
+        prevCursorPos: CursorPos,
+    ): CursorPos => {
+        const newCursorPosLine: number = Math.min(
+            code.length - 1,
+            prevCursorPos.line + Math.floor(LINE_CNT_IN_CODE / 2),
+        );
+        const newCursorPosCol: number = 0;
+
+        const newCursorPos: CursorPos = {
+            line: newCursorPosLine,
+            col: newCursorPosCol,
+        };
+
+        return newCursorPos;
+    }
+
     const CursorPosServices: CursorPosServices = {
         getUpCursorPosIfMovable,
         getLeftCursorPosIfMovable,
@@ -291,6 +368,10 @@ export function useCursorPosServices(): CursorPosServices {
         getFirstCursorPosOfUnderLineIfMovable,
         getFirstCursorPosOfUpperLineIfMovable,
         findCursorPosByChar,
+        getFirstCursorPosOfCurrLine,
+        getLastCursorPosOfCurrLine,
+        getCursorPosOnPgUp,
+        getCursorPosOnPgDn,
     };
 
     return CursorPosServices;

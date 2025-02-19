@@ -21,6 +21,10 @@ import LineJumpButton from "./LineJumpButton";
 import WordJumpButton from "./WordJumpButton";
 import SetStatusBarColorButton from "./setStatsuBarColorButton";
 import { DeleteTabButton } from "./DeleteTabButton";
+import HomeButton from "./HomeButton";
+import EndButton from "./EndButton";
+import PgUpButton from "./PgUpButton";
+import PgDnButton from "./PgDnButton";
 
 export default function ShiftedKeyLayout() {
     return (
@@ -35,7 +39,7 @@ export default function ShiftedKeyLayout() {
             <PasteButton />
 
             {/* 2 */}
-            <CursorMoveUpButton />
+            <PgUpButton />
             <FlickButton
                 upValue="_"
                 leftValue="-"
@@ -59,8 +63,8 @@ export default function ShiftedKeyLayout() {
             />
             <DeleteButton />
 
-            {/* 2 */}
-            <CursorMoveLeftButton />
+            {/* 3 */}
+            <HomeButton />
             <FlickButton
                 upValue="I"
                 leftValue="H"
@@ -82,10 +86,10 @@ export default function ShiftedKeyLayout() {
                 rightValue="{"
                 downValue="6"
             />
-            <CursorMoveRightButton />
+            <EndButton />
 
-            {/* 3 */}
-            <CursorMoveDownButton />
+            {/* 4 */}
+            <PgDnButton />
             <FlickButton
                 upValue="R"
                 leftValue="Q"

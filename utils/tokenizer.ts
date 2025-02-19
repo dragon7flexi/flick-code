@@ -1,9 +1,9 @@
-const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";"];
-const keywords_blue: string[] = ["def", "in", "const", "function"];
-const keywords_green: string[] = ["int", "range"];
-const keywords_pink: string[] = ["for", "if", "return"];
+const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";", "&", "&"];
+const keywords_blue: string[] = ["def", "in", "const", "function", "var", "func", "type"];
+const keywords_green: string[] = ["int", "range", "string", "struct", "any"];
+const keywords_pink: string[] = ["for", "if", "return", "while", "switch", "match", "case", "break"];
 const brackets: string[] = ["(", ")", "[", "]", "{", "}"];
-const stringDelimiters: string[] = ['"', "'"];  // String literals can use either double or single quotes
+const stringDelimiters: string[] = ['"', "'"]; // String literals can use either double or single quotes
 
 function isLetter(char: string): boolean {
     return /^[a-zA-Z_]$/.test(char);
@@ -33,44 +33,42 @@ export interface Token {
     bracketLevel: number;
 }
 
+let currBracketLevel = 0;
+
 export function tokenizeCode(code: string[]): Token[] {
     let tokens: Token[] = [];
-    let bracketStack: string[] = [];
-    let bracketLevel: number = 0;
 
     code.forEach((line, lineNumber) => {
         let i = 0;
 
         while (i < line.length) {
             let char = line[i];
-            let token: Token = { value: "", type: "", line: lineNumber, col: i, bracketLevel: -1 };
+            let token: Token = { value: "", type: "", line: lineNumber, col: i, bracketLevel: currBracketLevel };
 
             // Handle spaces
             if (char === " ") {
                 token.value = " ";
                 token.type = "whitespace";
-                token.bracketLevel = -1;
                 tokens.push(token);
                 i++;
                 continue;
             }
 
-            // Handle brackets
+            // Handle brackets with correct bracket level
+            // TODO: this can't recognized brackets in multi lines
             if (isBracket(char)) {
                 token.value = char;
-                if (char === "(" || char === "[" || char === "{") {
-                    token.type = "bracket";
-                    token.bracketLevel = bracketLevel;
-                    tokens.push(token);
-                    bracketStack.push(char);
-                    bracketLevel++;
+                token.type = "bracket";
+
+                if (char === "{" || char === "[" || char === "(") {
+                    token.bracketLevel = currBracketLevel; // Assign before incrementing
+                    currBracketLevel++;
                 } else {
-                    token.type = "bracket";
-                    token.bracketLevel = bracketLevel - 1;
-                    tokens.push(token);
-                    bracketStack.pop();
-                    bracketLevel--;
+                    token.bracketLevel = currBracketLevel - 1; // Assign before decrementing
+                    currBracketLevel--;  // Decrement last
                 }
+
+                tokens.push(token);
                 i++;
                 continue;
             }
@@ -79,7 +77,6 @@ export function tokenizeCode(code: string[]): Token[] {
             if (isOperator(char)) {
                 token.type = "operator";
                 token.value = char;
-                token.bracketLevel = -1;
                 tokens.push(token);
                 i++;
                 continue;
@@ -92,7 +89,6 @@ export function tokenizeCode(code: string[]): Token[] {
                     i++;
                 }
                 token.type = "number";
-                token.bracketLevel = -1;
                 tokens.push(token);
                 continue;
             }
@@ -102,7 +98,6 @@ export function tokenizeCode(code: string[]): Token[] {
                 let start = i;
                 token.value = char; // Include the opening delimiter
                 token.type = "string";
-                token.bracketLevel = -1;
 
                 i++; // Move past the opening delimiter
                 while (i < line.length && line[i] !== char) {
@@ -123,7 +118,6 @@ export function tokenizeCode(code: string[]): Token[] {
             if (line.slice(i, i + 2) === "//") {
                 token.value = line.slice(i); // Capture the whole comment
                 token.type = "comment";
-                token.bracketLevel = -1;
                 tokens.push(token);
                 break; // No need to process further for single-line comment
             }
@@ -132,7 +126,6 @@ export function tokenizeCode(code: string[]): Token[] {
                 let start = i;
                 token.value = "/*";
                 token.type = "comment";
-                token.bracketLevel = -1;
                 i += 2; // Skip past the opening "/*"
 
                 while (i < line.length && line.slice(i, i + 2) !== "*/") {
@@ -165,7 +158,6 @@ export function tokenizeCode(code: string[]): Token[] {
                 } else {
                     token.type = "identifier";
                 }
-                token.bracketLevel = -1;
                 tokens.push(token);
                 continue;
             }
@@ -173,7 +165,6 @@ export function tokenizeCode(code: string[]): Token[] {
             // Unknown characters
             token.type = "unknown";
             token.value = char;
-            token.bracketLevel = -1;
             tokens.push(token);
             i++;
         }
