@@ -7,20 +7,18 @@ import { copyToClipboard } from "@/utils/clipboardUtils";
 import { CursorPos } from "@/types/cursorPos";
 import { cursorPosState } from "@/states/cursorPosState";
 
-export default function CutAllButton() {
+export default function CopyAllButton() {
     const code: string[] = useRecoilValue(codeState);
-    const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
-    const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
 
     const handlePress = (): void => {
         const codeStr: string = code.join("\r\n");
         copyToClipboard(codeStr);
 
-        setCode([""]);
-        setCursorPos({
-            line: 0,
-            col: 0,
-        });
+        // setCode([""]);
+        // setCursorPos({
+        //     line: 0,
+        //     col: 0,
+        // });
     };
 
     return (
@@ -34,7 +32,7 @@ export default function CutAllButton() {
                 <Text
                     style={styles.buttonText}
                 >
-                    CutAll
+                    CopyAll
                 </Text>
             </TouchableOpacity>
         </View>

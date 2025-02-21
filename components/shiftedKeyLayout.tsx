@@ -15,6 +15,7 @@ import HomeButton from "./HomeButton";
 import EndButton from "./EndButton";
 import PgUpButton from "./PgUpButton";
 import PgDnButton from "./PgDnButton";
+import CutAllButton from "./CutAllButton";
 
 export default function ShiftedKeyLayout() {
     return (
@@ -104,7 +105,7 @@ export default function ShiftedKeyLayout() {
             <SpaceButton />
 
             {/* 5 */}
-            <SetStatusBarColorButton />
+            <CutAllButton />
             <FlickButton
                 upValue="$"
                 leftValue="`"

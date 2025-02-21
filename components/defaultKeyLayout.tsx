@@ -12,12 +12,12 @@ import DeleteButton from "./DeleteButton";
 import SpaceButton from "./SpaceButton";
 import PrevWordButton from "./PrevWordButton";
 import NextWordButton from "./NextWordButton";
-import CutAllButton from "./CutAllButton";
 import PasteButton from "./PasteButton";
 import ShiftButton from "./ShiftButton";
 import EnterButton from "./EnterButton";
 import FlickButton from "./FlickButton";
 import SetStatusBarColorButton from "./setStatsuBarColorButton";
+import CopyAllButton from "./CopyAllButton";
 
 export default function DefaultKeyLayout() {
     return (
@@ -27,7 +27,7 @@ export default function DefaultKeyLayout() {
             {/* 1 */}
             <TabButton />
             <PrevWordButton />
-            <CutAllButton />
+            <CopyAllButton />
             <NextWordButton />
             <PasteButton />
 
