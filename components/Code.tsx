@@ -77,7 +77,7 @@ export default function Code() {
     return (
         <View style={styles.container}>
             {codeInScreen.map((line: string, lineIdx: number) => {
-                const lineTokens: Token[] = tokenizeCode([line]);
+                const lineTokens: Token[] = tokens.filter((token) => token.line === lineIdx + scrollY);
 
                 return (
                     <View key={lineIdx} style={styles.lineContainer}>
