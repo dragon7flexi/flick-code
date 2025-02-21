@@ -1,6 +1,7 @@
 import { LINE_CNT_IN_CODE } from "@/constants/Code";
 import { cursorPosState } from "@/states/cursorPosState";
 import { CursorPos } from "@/types/cursorPos";
+import { countLeadingSpaces } from "@/utils/EnterButtonUtils";
 
 export interface CursorPosServices {
     getUpCursorPosIfMovable: (
@@ -177,8 +178,13 @@ export function useCursorPosServices(): CursorPosServices {
         }
 
         let newCursorPosCol: number | null;
+        const leadingSpacesCnt: number = countLeadingSpaces(code, prevCursorPos);
 
         for (let tmpPos = prevCursorPos.col + 1; tmpPos <= targetLine.length; ++tmpPos) {
+            if (tmpPos < leadingSpacesCnt) { // ignore tab spaces
+                continue;
+            }
+
             if (cursorJumpMilestones.includes(targetLine[tmpPos])) {
                 newCursorPosCol = tmpPos;
                 break;
