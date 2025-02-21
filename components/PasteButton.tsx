@@ -1,12 +1,14 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
 import { codeState } from "@/states/codeState";
+import { isShiftedState } from "@/states/isShiftedState";
 import { fetchCopiedText } from "@/utils/clipboardUtils";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SetterOrUpdater, useSetRecoilState } from "recoil";
 
 export default function PasteButton() {
     const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
+    const setIsShifted: SetterOrUpdater<boolean> = useSetRecoilState(isShiftedState);
 
     const handlePress = async (): Promise<void> => {
         try {
@@ -16,6 +18,10 @@ export default function PasteButton() {
         } catch (error) {
             console.error("Failed to paste text from clipboard", error);
         }
+
+        setIsShifted((prev: boolean) => {
+            return !prev;
+        });
     };
     
     return (

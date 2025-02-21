@@ -1,19 +1,9 @@
 import { KEYBOARD_BACKGROUND_COLOR } from "@/constants/Colors";
-import { SetStateAction } from "react";
 import { StyleSheet, View } from "react-native";
-import { TabButton } from "./tabButton";
-import PrevWordButton from "./PrevWordButton";
-import CutAllButton from "./CutAllButton";
-import NextWordButton from "./NextWordButton";
 import PasteButton from "./PasteButton";
-import CursorMoveUpButton from "./CursorMoveUpButton";
 import FlickButton from "./FlickButton";
 import DeleteButton from "./DeleteButton";
-import CursorMoveLeftButton from "./CursorMoveLeftButton";
-import CursorMoveRightButton from "./CursorMoveRightButton";
-import CursorMoveDownButton from "./CursorMoveDownButton";
 import SpaceButton from "./SpaceButton";
-import ExitButton from "./ExitButton";
 import ShiftButton from "./ShiftButton";
 import EnterButton from "./EnterButton";
 import CutLineButton from "./CutLineButton";
@@ -131,7 +121,6 @@ export default function ShiftedKeyLayout() {
                 downValue="%"
             />
             <EnterButton />
-
         </View>
     );
 }

@@ -3,6 +3,7 @@ import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size"
 import { useCursorPosServices } from "@/services/cursorPosServices";
 import { codeState } from "@/states/codeState";
 import { cursorPosState } from "@/states/cursorPosState";
+import { isShiftedState } from "@/states/isShiftedState";
 import { CursorPos } from "@/types/cursorPos";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
@@ -10,6 +11,7 @@ import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 export default function PgUpButton() {
     const code: string[] = useRecoilValue(codeState);
     const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
+    const setIsShifted: SetterOrUpdater<boolean> = useSetRecoilState(isShiftedState);
     const { getCursorPosOnPgUp } = useCursorPosServices();
 
     const handlePress = (): void => {
@@ -24,6 +26,10 @@ export default function PgUpButton() {
                 return newCursorPos;
             }
         );
+
+        setIsShifted((prev: boolean) => {
+            return !prev;
+        });
     };
 
     return (

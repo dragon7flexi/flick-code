@@ -1,5 +1,5 @@
 const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";", "&", "&"];
-const keywords_blue: string[] = ["def", "in", "const", "function", "var", "func", "type"];
+const keywords_blue: string[] = ["def", "in", "const", "function", "var", "func", "type", "False", "false", "True", "true", "and", "or"];
 const keywords_green: string[] = ["int", "range", "string", "struct", "any"];
 const keywords_pink: string[] = ["for", "if", "return", "while", "switch", "match", "case", "break"];
 const brackets: string[] = ["(", ")", "[", "]", "{", "}"];
