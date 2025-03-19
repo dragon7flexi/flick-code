@@ -143,6 +143,7 @@ export function tokenizeCode(code: string[]): Token[] {
 
             // Handle letters (keywords or identifiers)
             if (isLetter(char)) {
+                let start = i;
                 while (i < line.length && (isLetter(line[i]) || isDigit(line[i]))) {
                     token.value += line[i];
                     i++;
@@ -156,6 +157,10 @@ export function tokenizeCode(code: string[]): Token[] {
                     token.type = "keyword_pink";
                 } else {
                     token.type = "identifier";
+                    // After identifying the identifier, check the next character
+                    if (i < line.length && line[i] === '(') {
+                        token.type = "function_name";
+                    }
                 }
                 tokens.push(token);
                 continue;

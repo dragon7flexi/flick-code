@@ -51,7 +51,7 @@ export default function Code() {
                 style = { color: "rgb(221, 247, 190)" };
                 break;
             case "identifier":
-                style = { color: "rgb(197, 255, 251))" };
+                style = { color: "rgb(133, 255, 247))" };
                 break;
             case "bracket":
                 // Adjust color based on bracket level using modulo 3
@@ -65,7 +65,10 @@ export default function Code() {
                 break;
             case "comment":
                 style = { color: "gray" }; // Apply gray color for comments
-                break;                
+                break;
+            case "function_name":
+                style = { color: "rgb(192, 132, 255)" }
+                break;
             default:
                 style = {};
                 break;
