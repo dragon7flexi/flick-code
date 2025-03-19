@@ -1,5 +1,5 @@
 import React, { SetStateAction } from "react";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { TabButton } from "./tabButton";
 import { KEYBOARD_BACKGROUND_COLOR } from "@/constants/Colors";
 // TODO: change the name of cursor buttons
@@ -29,7 +29,7 @@ export default function DefaultKeyLayout() {
             <PrevWordButton />
             <CopyAllButton />
             <NextWordButton />
-            <PasteButton />
+            <SetStatusBarColorButton />
 
             {/* 2 */}
             <CursorMoveUpButton />
