@@ -1,6 +1,6 @@
 const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";", "&", "&"];
-const keywords_blue: string[] = ["def", "in", "const", "function", "var", "func", "type", "False", "false", "True", "true", "and", "or"];
-const keywords_green: string[] = ["int", "range", "string", "struct", "any"];
+const keywords_blue: string[] = ["def", "in", "const", "function", "class", "var", "func", "type", "False", "false", "True", "true", "and", "or"];
+const keywords_green: string[] = ["int", "range", "string", "struct", "any", "uint", "boolean", "bool", "void", "interface"];
 const keywords_pink: string[] = ["for", "if", "return", "while", "switch", "match", "case", "break"];
 const brackets: string[] = ["(", ")", "[", "]", "{", "}"];
 const stringDelimiters: string[] = ['"', "'"]; // String literals can use either double or single quotes
@@ -55,7 +55,6 @@ export function tokenizeCode(code: string[]): Token[] {
             }
 
             // Handle brackets with correct bracket level
-            // TODO: this can't recognized brackets in multi lines
             if (isBracket(char)) {
                 token.value = char;
                 token.type = "bracket";
