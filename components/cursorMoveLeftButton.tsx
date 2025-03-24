@@ -18,7 +18,7 @@ export default function CursorMoveLeftButton() {
     const handlePressIn = () => {
         pressTimerRef.current = setTimeout(() => {
             setIsLongPress(true); // Set flag when long press starts after 100ms
-        }, 100); // Trigger long press after 100ms
+        }, 200); // Trigger long press after 100ms
     };
 
     // Handle when the press ends, clear the timer if long press is not detected

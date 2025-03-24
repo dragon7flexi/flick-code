@@ -42,7 +42,7 @@ export default function Code() {
                 style = { color: "rgb(133, 240, 127)" };
                 break;
             case "keyword_pink":
-                style = { color: "rgb(255, 161, 234)" };
+                style = { color: "rgb(253, 143, 229)" };
                 break;
             case "operator":
                 style = { color: "rgb(255, 150, 85)" };
@@ -61,13 +61,13 @@ export default function Code() {
                 style = { color: "transparent" }; // Space is visible, but we don't style it
                 break;
             case "string":
-                style = { color: "rgb(247, 124, 124)" }; // Apply green color for string literals
+                style = { color:"rgb(192, 132, 255)" }; // Apply green color for string literals
                 break;
             case "comment":
                 style = { color: "gray" }; // Apply gray color for comments
                 break;
             case "function_name":
-                style = { color: "rgb(192, 132, 255)" }
+                style = { color: "hsl(0, 100.00%, 65.70%)" }
                 break;
             default:
                 style = {};
