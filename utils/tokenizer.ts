@@ -1,7 +1,7 @@
-const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";", "&", "&"];
+const operators: string[] = [".", "=", ":", "*", "+", ",", "-", "/", "%", ";", "&", "&", "<", ">", "!", "?"];
 const keywords_blue: string[] = ["def", "in", "const", "function", "class", "var", "func", "type", "False", "false", "True", "true", "and", "or"];
 const keywords_green: string[] = ["int", "range", "string", "struct", "any", "uint", "boolean", "bool", "void", "interface"];
-const keywords_pink: string[] = ["for", "if", "return", "while", "switch", "match", "case", "break"];
+const keywords_pink: string[] = ["for", "if", "return", "while", "switch", "match", "case", "break", "else", "elif"];
 const brackets: string[] = ["(", ")", "[", "]", "{", "}"];
 const stringDelimiters: string[] = ['"', "'"]; // String literals can use either double or single quotes
 

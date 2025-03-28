@@ -28,7 +28,7 @@ export default function Code() {
                 case 1:
                     return "rgb(255, 161, 234)";    // Level 2 (pink)
                 case 2:
-                    return "rgb(66, 117, 245)";    // Level 3 (blue)
+                    return "rgb(98, 143, 255)";    // Level 3 (blue)
                 default:
                     return "green";   // Default fallback
             }
@@ -42,16 +42,16 @@ export default function Code() {
                 style = { color: "rgb(133, 240, 127)" };
                 break;
             case "keyword_pink":
-                style = { color: "rgb(253, 143, 229)" };
+                style = { color: "rgb(252, 135, 227)" };
                 break;
             case "operator":
-                style = { color: "rgb(255, 150, 85)" };
+                style = { color: "rgb(255, 135, 61)" };
                 break;
             case "number":
                 style = { color: "rgb(221, 247, 190)" };
                 break;
             case "identifier":
-                style = { color: "rgb(133, 255, 247))" };
+                style = { color: "rgb(166, 252, 242))" };
                 break;
             case "bracket":
                 // Adjust color based on bracket level using modulo 3
@@ -61,13 +61,13 @@ export default function Code() {
                 style = { color: "transparent" }; // Space is visible, but we don't style it
                 break;
             case "string":
-                style = { color:"rgb(192, 132, 255)" }; // Apply green color for string literals
+                style = { color:"rgb(255, 92, 92)" }; // Apply green color for string literals
                 break;
             case "comment":
                 style = { color: "gray" }; // Apply gray color for comments
                 break;
             case "function_name":
-                style = { color: "hsl(0, 100.00%, 65.70%)" }
+                style = { color: "rgb(192, 132, 255)" }
                 break;
             default:
                 style = {};
