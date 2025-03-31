@@ -1,4 +1,3 @@
-import { SetStateAction, useDebugValue, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { KEYBOARD_HEIGHT } from "@/constants/Size";
 import DefaultKeyLayout from "./defaultKeyLayout";
@@ -13,6 +12,7 @@ export default function Keyboard() {
         <View
             style={styles.container}
         >
+            {/* HACK: Bad performance when the shift button is pressed */}
             {isShifted ? (
                 <ShiftedKeyLayout />
             ) : (
