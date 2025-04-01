@@ -1,0 +1,1 @@
+export const LONG_PRESS_TIME = 200;

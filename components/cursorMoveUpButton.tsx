@@ -1,17 +1,13 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
-import { useCursorPosServices } from "@/services/cursorPosServices";
-import { codeState } from "@/states/codeState";
-import { cursorPosState } from "@/states/cursorPosState";
-import { CursorPos } from "@/types/cursorPos";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import { useState, useRef } from "react";
 import React from "react";
+import { useCursorPos } from "@/hooks/useCursorPos";
 
 export default function CursorMoveUpButton() {
-  const code: string[] = useRecoilValue(codeState);
-  const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
+  const { moveUp } = useCursorPos();
+
   const [isLongPress, setIsLongPress] = useState(false);
   const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,27 +28,17 @@ export default function CursorMoveUpButton() {
     }
   };
 
-  // Function to move the cursor
-  const moveCursor = () => {
-    const { getUpCursorPosIfMovable } = useCursorPosServices();
-
-    setCursorPos((prevCursorPos: CursorPos): CursorPos => {
-      const nextCursorPos: CursorPos = getUpCursorPosIfMovable(code, prevCursorPos);
-      return nextCursorPos;
-    });
-  };
-
   // Function for a single press (normal tap)
   const handlePress = () => {
     if (!isLongPress) {
-      moveCursor(); // Move cursor once on normal tap
+      moveUp(); // Move cursor once on normal tap
     }
   };
 
   // Function to handle long press behavior (move cursor repeatedly)
   const handleLongPress = () => {
     if (isLongPress) {
-      moveCursor(); // Move cursor continuously while long pressing
+      moveUp(); // Move cursor continuously while long pressing
     }
   };
 
