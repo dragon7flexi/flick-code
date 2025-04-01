@@ -1,63 +1,16 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useState, useRef } from "react";
-import React from "react";
 import { useCursorPos } from "@/hooks/useCursorPos";
+import { useLongPress } from "@/hooks/useLongPress";
 
 export default function CursorMoveUpButton() {
   const { moveUp } = useCursorPos();
-
-  const [isLongPress, setIsLongPress] = useState(false);
-  const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Handle when the press starts, set a timer for long press detection
-  const handlePressIn = () => {
-    pressTimerRef.current = setTimeout(() => {
-      setIsLongPress(true); // Set flag when long press starts after 500ms
-    }, 200); // Trigger long press after 500ms
-  };
-
-  // Handle when the press ends, clear the timer if long press is not detected
-  const handlePressOut = () => {
-    if (pressTimerRef.current) {
-      clearTimeout(pressTimerRef.current); // Clear timer if press is released
-    }
-    if (isLongPress) {
-      setIsLongPress(false); // Reset flag if long press is canceled
-    }
-  };
-
-  // Function for a single press (normal tap)
-  const handlePress = () => {
-    if (!isLongPress) {
-      moveUp(); // Move cursor once on normal tap
-    }
-  };
-
-  // Function to handle long press behavior (move cursor repeatedly)
-  const handleLongPress = () => {
-    if (isLongPress) {
-      moveUp(); // Move cursor continuously while long pressing
-    }
-  };
-
-  // UseEffect to handle long press and move the cursor at regular intervals
-  React.useEffect(() => {
-    if (isLongPress) {
-      const intervalId = setInterval(handleLongPress, 50); // Move cursor every 100ms while long pressed
-      return () => clearInterval(intervalId); // Cleanup the interval on long press end
-    }
-  }, [isLongPress]);
+  const { handlePressIn, handlePressOut } = useLongPress(moveUp);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={handlePress}
-        style={styles.button}
-      >
+      <TouchableOpacity onPressIn={handlePressIn} onPressOut={handlePressOut} style={styles.button}>
         <Text style={styles.buttonText}>↑</Text>
       </TouchableOpacity>
     </View>
