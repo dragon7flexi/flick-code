@@ -2,14 +2,14 @@ import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
 import { StyleSheet } from "react-native";
 
-const keyboardButtonStyles = StyleSheet.create({
+export const keyboardBtnStyles = StyleSheet.create({
     container: {
         height: KEYBOARD_BUTTON_HEIGHT,
         width: KEYBOARD_BUTTON_WIDTH,
         justifyContent: "center",
         alignItems: "center",
     },
-    button: {
+    btn: {
         height: "90%",
         width: "90%",
         borderRadius: 10,
@@ -17,7 +17,7 @@ const keyboardButtonStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    buttonText: {
+    btnText: {
         color: "white",
     },
 });

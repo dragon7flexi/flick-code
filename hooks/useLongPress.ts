@@ -1,13 +1,16 @@
 import { DELAY_UNTIL_REPEAT_MS, REPEAT_INTERVAL_MS } from "@/constants/Button";
+import { LongPressBtnLogic } from "@/key_map/btnLogics";
 import { useRef } from "react";
 
-export function useLongPress(callback: () => void) {
+export function useLongPress(
+  keyAction: () => void
+): LongPressBtnLogic {
   const isPressed = useRef(false);
   const pressTimeout = useRef<NodeJS.Timeout | null>(null);
   const repeatInterval = useRef<NodeJS.Timeout | null>(null);
 
   const handlePressIn = () => {
-    callback(); // First move or action
+    keyAction(); // First actionType
     isPressed.current = true;
 
     // Wait until long press
@@ -16,15 +19,15 @@ export function useLongPress(callback: () => void) {
 
       // Start repeat
       repeatInterval.current = setInterval(() => {
-        if (!isPressed.current) return; // Cancel repeat
+        if (!isPressed.current) return; // Stop repeat
 
-        callback();
+        keyAction();
       }, REPEAT_INTERVAL_MS); 
     }, DELAY_UNTIL_REPEAT_MS);
   };
 
   const handlePressOut = () => {
-    isPressed.current = false; // Cancel (or don't start) repeat
+    isPressed.current = false; // Stop (or don't start) repeat
 
     // Reset timeout and interval
     if (pressTimeout.current) {

@@ -19,19 +19,19 @@ import {
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState, useRecoilCallback } from "recoil";
 
 interface Props {
-    upValue: string;
-    leftValue: string;
-    centerValue: string;
-    rightValue: string;
-    downValue: string;
+    upVal: string;
+    leftVal: string;
+    centerVal: string;
+    rightVal: string;
+    downVal: string;
 }
 
-export default function FlickButton({
-    upValue,
-    leftValue,
-    centerValue,
-    rightValue,
-    downValue,
+export default function FlickBtn({
+    upVal,
+    leftVal,
+    centerVal,
+    rightVal,
+    downVal,
 }: Props) {
     const cursorPos: CursorPos = useRecoilValue(cursorPosState);
     const isShifted: boolean = useRecoilValue(isShiftedState);
@@ -74,11 +74,11 @@ export default function FlickButton({
 
         const currValue: string = getValueByDirection(
             currDirection,
-            upValue,
-            leftValue,
-            centerValue,
-            rightValue,
-            downValue,
+            upVal,
+            leftVal,
+            centerVal,
+            rightVal,
+            downVal,
         );
 
         updateCodeAndCursor(currValue, cursorPos);
@@ -88,6 +88,7 @@ export default function FlickButton({
         }
     };
 
+    // TODO: create a function that returns the panResponder
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponder: () => true,
@@ -98,15 +99,15 @@ export default function FlickButton({
         <View style={styles.container} {...panResponder.panHandlers}>
             <View style={styles.button}>
                 <View style={styles.firstLine}>
-                    <Text style={styles.buttonText}>{upValue}</Text>
+                    <Text style={styles.buttonText}>{upVal}</Text>
                 </View>
                 <View style={styles.secondLine}>
-                    <Text style={styles.buttonText}>{leftValue}</Text>
-                    <Text style={styles.buttonText}>{centerValue}</Text>
-                    <Text style={styles.buttonText}>{rightValue}</Text>
+                    <Text style={styles.buttonText}>{leftVal}</Text>
+                    <Text style={styles.buttonText}>{centerVal}</Text>
+                    <Text style={styles.buttonText}>{rightVal}</Text>
                 </View>
                 <View style={styles.thirdLine}>
-                    <Text style={styles.buttonText}>{downValue}</Text>
+                    <Text style={styles.buttonText}>{downVal}</Text>
                 </View>
             </View>
         </View>

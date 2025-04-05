@@ -22,9 +22,9 @@ export default function HomeScreen() {
         <Code />
         <Cursor />
         {/* TODO: separate it as a component */}
-        <TouchableOpacity style={styles.ConfigBtn} onPress={handlePress}>
+        {/* <TouchableOpacity style={styles.ConfigBtn} onPress={handlePress}>
             <Text>Config</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Keyboard />
       <CharWidthCalculator />

@@ -4,8 +4,6 @@ import { codeState } from "@/states/codeState";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import { copyToClipboard } from "@/utils/clipboardUtils";
-import { CursorPos } from "@/types/cursorPos";
-import { cursorPosState } from "@/states/cursorPosState";
 
 export default function CopyAllButton() {
     const code: string[] = useRecoilValue(codeState);

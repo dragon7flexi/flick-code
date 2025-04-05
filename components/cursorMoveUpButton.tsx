@@ -1,8 +1,8 @@
 import { KEYBOARD_BUTTON_BACKGROUND_COLOR } from "@/constants/Colors";
 import { KEYBOARD_BUTTON_HEIGHT, KEYBOARD_BUTTON_WIDTH } from "@/constants/Size";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useCursorPos } from "@/hooks/useCursorPos";
 import { useLongPress } from "@/hooks/useLongPress";
+import { useCursorPos } from "@/hooks/useCursorMove";
 
 export default function CursorMoveUpButton() {
   const { moveUp } = useCursorPos();
