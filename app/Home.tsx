@@ -7,27 +7,16 @@ import CharWidthCalculator from "@/components/CharWidthCalculator";
 import Code from "@/components/Code";
 import Cursor from "@/components/Cursor";
 import Keyboard from "@/components/Keyboard";
-import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
-    const router = useRouter();
-
-    const handlePress = () => {
-        router.navigate("/config")
-    };
-
   return (
     <View style={styles.container}>
       <View style={styles.codeContainer}>
         <Code />
         <Cursor />
-        {/* TODO: separate it as a component */}
-        {/* <TouchableOpacity style={styles.ConfigBtn} onPress={handlePress}>
-            <Text>Config</Text>
-        </TouchableOpacity> */}
       </View>
       <Keyboard />
-      <CharWidthCalculator />
+      <CharWidthCalculator /> {/* Necessary to determine cursor interval */}
       <View style={styles.back} />
     </View>
   );

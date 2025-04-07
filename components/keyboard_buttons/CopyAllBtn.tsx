@@ -5,7 +5,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
 import { copyToClipboard } from "@/utils/clipboardUtils";
 
-export default function CopyAllButton() {
+export default function CopyAllBtn() {
     const code: string[] = useRecoilValue(codeState);
 
     const handlePress = (): void => {

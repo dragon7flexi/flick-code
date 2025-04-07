@@ -1,15 +1,17 @@
-import { getLongPressBtnLogic } from "@/key_map/btnLogics";
-import { getBtnTextByKeyActionType, KeyActionType } from "@/key_map/keyActionType";
+import { useLongPress } from "@/hooks/useLongPress";
 import { keyboardBtnStyles } from "@/styles/keyboardButtonStyles";
 import { Text, TouchableOpacity, View } from "react-native";
 
 interface Props {
-    keyActionType: KeyActionType;
+    keyAction: () => void;
+    btnText: string;
 }
 
-export default function LongPressBtn({ keyActionType }: Props) {
-    const { handlePressIn, handlePressOut } = getLongPressBtnLogic(keyActionType);
-    const btnText = getBtnTextByKeyActionType(keyActionType);
+export default function LongPressBtn({
+    keyAction,
+    btnText,
+}: Props) {
+    const { handlePressIn, handlePressOut } = useLongPress(keyAction);
 
     return (
         <View style={styles.container}>

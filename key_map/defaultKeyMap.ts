@@ -119,7 +119,7 @@ export const defaultKeyMap: KeyMap = [
             },
         },
         { // row: 3, col: 5
-            keyType: KeyType.Normal,
+            keyType: KeyType.LongPress,
             behavior: {
                 actionType: KeyActionType.MoveCursorRight,
             },
@@ -127,7 +127,7 @@ export const defaultKeyMap: KeyMap = [
     ],
     [ // row: 4
         { // row: 4, col: 1
-            keyType: KeyType.Normal,
+            keyType: KeyType.LongPress,
             behavior: {
                 actionType: KeyActionType.MoveCursorDown,
             },

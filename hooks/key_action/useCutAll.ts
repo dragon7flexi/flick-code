@@ -9,12 +9,14 @@ export function useCutAll() {
     const setCode: SetterOrUpdater<string[]> = useSetRecoilState(codeState);
     const setCursorPos: SetterOrUpdater<CursorPos> = useSetRecoilState(cursorPosState);
 
-    const codeStr: string = code.join("\r\n");
-    copyToClipboard(codeStr);
+    return () => {
+        const codeStr: string = code.join("\r\n");
+        copyToClipboard(codeStr);
 
-    setCode([""]);
-    setCursorPos({
-        line: 0,
-        col: 0,
-    });
+        setCode([""]);
+        setCursorPos({
+            line: 0,
+            col: 0,
+        });
+    }
 }

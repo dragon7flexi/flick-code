@@ -13,7 +13,10 @@ export default function Keyboard() {
         <View style={styles.container}>
             {keyMap.map((keyDataRow, rowIndex) =>
                 keyDataRow.map((keyData, keyIndex) => (
-                    <KeyboardBtn key={`${rowIndex}-${keyIndex}`} keyData={keyData} />
+                    <KeyboardBtn
+                        key={`${rowIndex}-${keyIndex}`}
+                        keyData={keyData}
+                    />
                 ))
             )}
         </View>

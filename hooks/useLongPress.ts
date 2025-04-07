@@ -1,10 +1,10 @@
 import { DELAY_UNTIL_REPEAT_MS, REPEAT_INTERVAL_MS } from "@/constants/Button";
-import { LongPressBtnLogic } from "@/key_map/btnLogics";
 import { useRef } from "react";
+
 
 export function useLongPress(
   keyAction: () => void
-): LongPressBtnLogic {
+) {
   const isPressed = useRef(false);
   const pressTimeout = useRef<NodeJS.Timeout | null>(null);
   const repeatInterval = useRef<NodeJS.Timeout | null>(null);
